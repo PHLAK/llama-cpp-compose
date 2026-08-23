@@ -1,0 +1,32 @@
+services:
+
+  llama-cpp:
+    extends:
+      file: hardware-acceleration.yaml
+      service: ${HARDWARE_ACCELERATION:-cpu}
+    env_file: environment.d/llama-cpp.env
+    environment:
+      LLAMA_ARG_MODELS_DIR: /vol/models
+    ports:
+      - ${LLAMA_CPP_PORT:-8080}:8080
+    volumes:
+      - ${LLAMA_CPP_DATA_VOLUME:-llama-cpp-data}:/vol/models
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+  watchtower:
+    image: nickfedor/watchtower:${WATCHTOWER_VERSION:-latest}
+    env_file: environment.d/watchtower.env
+    environment:
+      WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+volumes:
+  llama-cpp-data: {}

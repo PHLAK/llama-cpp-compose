@@ -1,0 +1,19 @@
+services:
+  cpu:
+    image: ghcr.io/ggml-org/llama.cpp:${LLAMA_CPP_VERSION:-server}
+
+  cuda:
+    image: ghcr.io/ggml-org/llama.cpp:${LLAMA_CPP_VERSION:-server-cuda}
+    gpus: all
+
+  intel:
+    image: ghcr.io/ggml-org/llama.cpp:${LLAMA_CPP_VERSION:-server-intel}
+    devices: [/dev/dri:/dev/dri]
+
+  rocm:
+    image: ghcr.io/ggml-org/llama.cpp:${LLAMA_CPP_VERSION:-server-rocm}
+    devices: [/dev/dri:/dev/dri, /dev/kfd:/dev/kfd]
+
+  vulkan:
+    image: ghcr.io/ggml-org/llama.cpp:${LLAMA_CPP_VERSION:-server-vulkan}
+    devices: [/dev/dri:/dev/dri]

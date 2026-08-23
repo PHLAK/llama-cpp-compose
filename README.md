@@ -1,0 +1,61 @@
+Requirements
+------------
+
+  - [Docker](https://www.docker.com)
+    - [Docker Compose](https://docs.docker.com/compose/)
+  - [GNU Make](https://www.gnu.org/software/make/) (optional)
+
+Installation
+------------
+
+  1. Clone the repository
+
+          git clone https://github.com/PHLAK/llama-cpp-compose.git
+
+  2. Initialize the configuration files
+
+          make init
+
+     or manually run the commands in `Makefile`
+
+  3. Set the environment variables in `.env`
+
+  4. Set service-specific environment variables by editing the files found in the `environment.d` directory (optional)
+
+  5. Run `docker compose config` to validate and confirm your configuration
+
+  6. Run `docker compose up -d` to start the containers
+
+Configuration
+-------------
+
+Your installation can be configured by defining environment variables in the
+`environment.d/*.env` files. Reference the documentation for the individual
+apps for available environment variables and their purpose.
+
+> [!IMPORTANT]
+> After modifying files in `environment.d` you must restart your containers
+> (i.e. `docker compose up -d`) for the changes to apply.
+
+Security
+--------
+
+> [!CAUTION]
+> The llama.cpp server has no authorization by default! It is recommended to set
+> `LLAMA_API_KEY` in `environment.d/llama-cpp.env` for security.
+
+Updating
+--------
+
+  1. Fetch latest file changes from the repository
+
+         git pull --ff-only
+
+  2. If necessary, initialize new configuration files
+
+         make init
+
+  3. Pull new images and restart containers
+
+         docker compose pull
+         docker compose up -d
